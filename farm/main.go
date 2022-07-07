@@ -5,25 +5,6 @@ import (
 	"math/rand"
 )
 
-// took from the internet
-var animalStats = map[string]map[string]float64{
-	"dog": {
-		"foodPerKg": 10,
-		"minWeight": 5,
-		"maxWeight": 70,
-	},
-	"cat": {
-		"foodPerKg": 7,
-		"minWeight": 4,
-		"maxWeight": 8,
-	},
-	"cow": {
-		"foodPerKg": 25,
-		"minWeight": 720,
-		"maxWeight": 1100,
-	},
-}
-
 type Animal struct {
 	weight    float64
 	kind      string
@@ -39,8 +20,27 @@ type foodQuantity interface {
 }
 
 func genFarm(quantityOfAnimals int) []Animal {
+	// took from the internet
+	var animalStats = map[string]map[string]float64{
+		"dog": {
+			"foodPerKg": 10,
+			"minWeight": 5,
+			"maxWeight": 70,
+		},
+		"cat": {
+			"foodPerKg": 7,
+			"minWeight": 4,
+			"maxWeight": 8,
+		},
+		"cow": {
+			"foodPerKg": 25,
+			"minWeight": 720,
+			"maxWeight": 1100,
+		},
+	}
+
 	var result []Animal
-	for i := 1; i <= quantityOfAnimals; i++ {
+	for i := 0; i < quantityOfAnimals; i++ {
 		random := rand.Intn(3) // 0 - cow, 1 - cat, 2 - dog
 		switch random {
 		case 0:
@@ -69,7 +69,7 @@ func genFarm(quantityOfAnimals int) []Animal {
 }
 
 func main() {
-	totatFood := 0
+	var totatFood float64
 	farmAnimalsQuantity := 27
 	listOfAnimals := genFarm(farmAnimalsQuantity)
 
@@ -78,7 +78,7 @@ func main() {
 	for i, v := range listOfAnimals {
 		inter = v
 		foodForAnimal := inter.calcFoodQuantity()
-		totatFood += int(foodForAnimal)
+		totatFood += foodForAnimal
 		fmt.Printf("%v: For %v, with %v kg of weight, needs %v kg of food.\n", i+1, v.kind, v.weight, foodForAnimal)
 	}
 	fmt.Printf("Farm needs %v kg of food for animals.", totatFood)
